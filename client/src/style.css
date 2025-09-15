@@ -2,7 +2,12 @@ html {
   height: 100%;
   display: grid;
   place-content: center;
+  font-weight: 600;
+  font-family: 'Jaldi';
+}
 
+.current-count {
+  font-size: 3rem;
 }
 
 .click-me {
@@ -10,9 +15,27 @@ html {
   justify-content: center;
   justify-items: center;
   align-items: center;
-  background: #eee;
-  border: 0.6rem solid #aaa;
+  background: #c0c0c0;
+  border: 0.6rem solid #dcdcdc;
   border-radius: 0.4rem;
-  height: 20em;
-  width: 15em;
+  width: 25rem;
+  height: 20rem;
+}
+
+.progress {
+  width: 17rem;
+  height: 3.76rem;
+  background: #9a9a9a;
+  display: grid;
+  align-content: center;
+  justify-content: end;
+  padding: 0.5rem;
+}
+
+button {
+  width: 22rem;
+  height: 5rem;
+  background-color: #59b4ff;
+  font-size: 40px;
+
 }

@@ -7,7 +7,8 @@ export const ClickMe = () => {
 
   return (
     <div className="click-me">
-      <span>{count}</span>
+      <span className="current-count">{count}</span>
+      <div className="progress">{total}</div>
       <button onClick={() => setCount(count + 1)}>click me</button>
     </div>
   )
