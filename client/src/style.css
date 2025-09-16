@@ -11,31 +11,50 @@ html {
 }
 
 .click-me {
+  background: #909090;
+  width: 25rem;
+  height: 20rem;
+  padding: 0.5rem;
+  border-radius: 1.5rem;
+}
+
+.content {
   display: grid;
   justify-content: center;
   justify-items: center;
   align-items: center;
   background: #c0c0c0;
-  border: 0.6rem solid #dcdcdc;
-  border-radius: 0.4rem;
   width: 25rem;
   height: 20rem;
+  border-radius: 1rem;
 }
 
 .progress {
   width: 17rem;
   height: 3.76rem;
   background: #9a9a9a;
-  display: grid;
-  align-content: center;
-  justify-content: end;
   padding: 0.5rem;
+  border-radius: 1rem;
+}
+
+.progress-bar {
+  height: 3.75rem;
+  background: green;
+  transition: width 0.5s ease;
+  border-radius: 0.5rem;
 }
 
 button {
   width: 22rem;
   height: 5rem;
   background-color: #59b4ff;
-  font-size: 40px;
+  font-size: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+button:active {
+  transform: scale(0.99);
+  font-size: 2.6rem;
 }
