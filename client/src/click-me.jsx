@@ -14,9 +14,14 @@ export const ClickMe = () => {
     }
   }, [count])
 
+
   const barStyle = {
     width: `${(count / total) * 100}%`,
     visibility: count > 0 ? 'visible' : 'hidden',
+  }
+
+  const countStyle = {
+    marginRight: ((count / total) * 10) > 2 ? '1rem' : '0',
   }
 
   const increment = () => {
@@ -26,11 +31,13 @@ export const ClickMe = () => {
   return (
     <div className="click-me">
       <div className="content">
-        <span className="current-count">{count}</span>
+        <span className="total">{total}</span>
         <div className="progress">
-          <div className="progress-bar" style={barStyle}>{count}</div>
+          <div className="progress-bar" style={barStyle}>
+            <div className="current-count" style={countStyle}>{count}</div>
+          </div>
         </div>
-        <button onClick={increment}>click me</button>
+        <button onClick={increment}>CLICK ME</button>
       </div>
     </div>
   )
