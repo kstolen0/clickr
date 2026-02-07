@@ -27,6 +27,8 @@ function updateCount(event) {
 }
 
 function sendInc() {
-	const command = { command: "inc" }
+	const command = { command: "inc" };
 	socket.send(JSON.stringify(command));
+	const el = document.getElementById("count");
+	el.blur();
 }
