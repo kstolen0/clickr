@@ -1,34 +1,46 @@
 package com.example
 
-import io.ktor.serialization.kotlinx.json.*
+import io.ktor.serialization.kotlinx.KotlinxWebsocketSerializationConverter
 import io.ktor.server.application.*
-import io.ktor.server.http.content.*
-import io.ktor.server.plugins.contentnegotiation.*
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
-import io.ktor.websocket.*
-import java.time.Duration
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import java.util.Collections
+import kotlin.concurrent.atomics.AtomicInt
+import kotlin.concurrent.atomics.ExperimentalAtomicApi
 import kotlin.time.Duration.Companion.seconds
 
+@OptIn(ExperimentalAtomicApi::class)
 fun Application.configureSockets() {
     install(WebSockets) {
+        contentConverter = KotlinxWebsocketSerializationConverter(Json)
         pingPeriod = 15.seconds
         timeout = 15.seconds
         maxFrameSize = Long.MAX_VALUE
         masking = false
     }
     routing {
-        webSocket("/ws") { // websocketSession
-            for (frame in incoming) {
-                if (frame is Frame.Text) {
-                    val text = frame.readText()
-                    outgoing.send(Frame.Text("YOU SAID: $text"))
-                    if (text.equals("bye", ignoreCase = true)) {
-                        close(CloseReason(CloseReason.Codes.NORMAL, "Client said BYE"))
-                    }
-                }
-            }
+        var count = 0
+        val sessions = Collections.synchronizedList<WebSocketServerSession>(ArrayList())
+
+        webSocket("/click") {
+            sessions.add(this)
+            sendSerialized(count)
+
+           while (true) {
+              val cmd = receiveDeserialized<Command>()
+               if (cmd.command == "inc") {
+                   count++
+               }
+
+              for (session in sessions) {
+                 session.sendSerialized(count)
+              }
+           }
         }
     }
 }
+
+@Serializable
+data class Command(val command: String)
