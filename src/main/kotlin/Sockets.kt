@@ -26,18 +26,25 @@ fun Application.configureSockets() {
 
         webSocket("/click") {
             sessions.add(this)
-            sendSerialized(count)
+            try {
+                sendSerialized(count)
 
-           while (true) {
-              val cmd = receiveDeserialized<Command>()
-               if (cmd.command == "inc") {
-                   count++
-               }
+                while (true) {
+                    val cmd = receiveDeserialized<Command>()
+                    if (cmd.command == "inc") {
+                        count++
+                    }
 
-              for (session in sessions) {
-                 session.sendSerialized(count)
-              }
-           }
+                    for (session in sessions) {
+                        session.sendSerialized(count)
+                    }
+                }
+            }
+            catch (e: Throwable) {
+               println(e.message)
+            } finally {
+                sessions -= this
+            }
         }
     }
 }
