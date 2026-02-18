@@ -7,11 +7,11 @@ COPY settings.gradle.kts settings.gradle.kts
 COPY gradle gradle
 COPY gradle.properties gradle.properties
 
-RUN gradle --no-daemon build -x test || return 0
+RUN gradle build -x test || return 0
 
 # Copy source and build
 COPY src src
-RUN gradle --no-daemon clean build
+RUN gradle clean build
 
 # ---- Run stage ----
 FROM eclipse-temurin:21-jre-jammy
