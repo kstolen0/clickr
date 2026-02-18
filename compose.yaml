@@ -1,23 +1,32 @@
 services:
   caddy:
+    networks:
+      - pi
+    container_name: caddy
     image: caddy:latest
-    restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"  # Required for HTTP/3
+      - 80:80
+      - 443:443
+    restart: unless-stopped
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - ./site:/srv
       - caddy_data:/data
       - caddy_config:/config
+
+  clickr:
+    build: .
+    container_name: clickr
     networks:
-      - web
+      - pi
+    ports:
+     - 8081:8080
+
 
 volumes:
   caddy_data:
   caddy_config:
 
 networks:
-  web:
+  pi:
     external: false

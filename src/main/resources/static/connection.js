@@ -3,7 +3,7 @@ let socket;
 
 function setupSocket() {
 
-	url = 'ws://0.0.0.0:8080/click';
+	url = `ws://${window.location.host}/click`;
 	socket = new WebSocket(url);
 
 	socket.onopen = openConnection;

@@ -1,4 +1,4 @@
 localhost {
-    root * /srv
-    file_server
+	root * /srv
+	file_server
 }
