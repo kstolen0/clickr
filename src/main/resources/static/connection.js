@@ -20,10 +20,14 @@ function closeConnection(event) {
 }
 
 function updateCount(event) {
-	const count = Number(event.data);
-	console.log(count);
-	const el = document.getElementById("count")
+const res = JSON.parse(event.data)
+	const count = Number(res.count);
+	const total = Number(res.total);
+	const el = document.getElementById("count");
 	el.innerHTML = count;
+
+const totalEl = document.getElementById("total");
+totalEl.innerHTML = total;
 }
 
 function sendInc() {

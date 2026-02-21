@@ -16,8 +16,8 @@ RUN gradle clean build
 # ---- Run stage ----
 FROM eclipse-temurin:21-jre-jammy
 
-ARG USER_ID=1000
-ARG GROUP_ID=1000
+ARG USER_ID=1001
+ARG GROUP_ID=1001
 
 RUN groupadd --gid $GROUP_ID appgroup && \
  useradd --uid $USER_ID --gid $GROUP_ID --create-home --shell /bin/bash appuser

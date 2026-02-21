@@ -22,12 +22,14 @@ fun Application.configureSockets() {
     }
     routing {
         var count = 0
+        var total = 10
+
         val sessions = Collections.synchronizedList<WebSocketServerSession>(ArrayList())
 
         webSocket("/click") {
             sessions.add(this)
             try {
-                sendSerialized(count)
+                sendSerialized(Response(count, total))
 
                 while (true) {
                     val cmd = receiveDeserialized<Command>()
@@ -35,9 +37,15 @@ fun Application.configureSockets() {
                         count++
                     }
 
-                    for (session in sessions) {
-                        session.sendSerialized(count)
+                    if (count == total) {
+                        total*=2
+                        count = 0
                     }
+
+                    for (session in sessions) {
+                        session.sendSerialized(Response(count, total))
+                    }
+
                 }
             }
             catch (e: Throwable) {
@@ -51,3 +59,6 @@ fun Application.configureSockets() {
 
 @Serializable
 data class Command(val command: String)
+
+@Serializable
+data class Response(val count: Int, val total: Int)
