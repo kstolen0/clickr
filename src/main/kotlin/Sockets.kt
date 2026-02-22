@@ -40,7 +40,7 @@ fun Application.configureSockets() {
                     if (count == target) {
                         target*=2
                         count = 0
-                        style = if (style > 4) 0 else style + 1
+                        style = if (style >= 4) 0 else style + 1
                     }
 
                     for (session in sessions) {
