@@ -12,8 +12,8 @@ const colors = {
 function setupSocket() {
 
 	url = `ws://${window.location.host}/click`;
-    if (window.location.protocol === "https:") {
-	url = `wss://${window.location.host}/click`;
+	if (window.location.protocol === "https:") {
+		url = `wss://${window.location.host}/click`;
 	}
 	socket = new WebSocket(url);
 
@@ -34,24 +34,34 @@ function updateCount(event) {
 	const res = JSON.parse(event.data)
 	const count = Number(res.count);
 	const target = Number(res.target);
+	const progress = Math.ceil(count / target * 100);
 	const style = Number(res.style);
-	const progressBg = Object.keys(colors)[style];
-	const pageBg = colors[progressBg];
+	const c1 = Object.keys(colors)[style];
+	const c2 = colors[c1];
+	const c3 = colors[c2];
 
-	console.log(` ${style} ${progressBg} ${pageBg}`)
-	const pc = Math.ceil(count / target * 100);
+	setCount(count, c3);
+	setTarget(target, c3);
+	setProgress(progress, c1);
+	document.getElementById("html").style.background = c2;
+}
 
-	const el = document.getElementById("count");
-	el.innerHTML = count;
-	const targetEl = document.getElementById("target");
-	targetEl.innerHTML = target;
+function setCount(value, color) {
+	const count = document.getElementById("count");
+	count.innerHTML = value;
+	count.style.color = color;
+}
 
-	const progressEl = document.getElementById("progress");
-	progressEl.style.top = `${100 - pc}vh`;
-	progressEl.style.background = progressBg;
-	document.getElementById("html").style.background = pageBg;
+function setTarget(value, color) {
+	const target = document.getElementById("target");
+	target.innerHTML = value;
+	target.style.color = color;
+}
 
-
+function setProgress(value, color) {
+	const progress = document.getElementById("progress");
+	progress.style.top = `${100 - value}vh`;
+	progress.style.background = color;
 }
 
 function sendInc() {
