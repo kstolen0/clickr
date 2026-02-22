@@ -22,12 +22,12 @@ function closeConnection(event) {
 function updateCount(event) {
 const res = JSON.parse(event.data)
 	const count = Number(res.count);
-	const total = Number(res.total);
+	const target = Number(res.target);
 	const el = document.getElementById("count");
 	el.innerHTML = count;
 
-const totalEl = document.getElementById("total");
-totalEl.innerHTML = total;
+const targetEl = document.getElementById("target");
+targetEl.innerHTML = target;
 }
 
 function sendInc() {

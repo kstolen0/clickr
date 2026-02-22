@@ -7,7 +7,6 @@ import io.ktor.server.websocket.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import java.util.Collections
-import kotlin.concurrent.atomics.AtomicInt
 import kotlin.concurrent.atomics.ExperimentalAtomicApi
 import kotlin.time.Duration.Companion.seconds
 
@@ -22,14 +21,14 @@ fun Application.configureSockets() {
     }
     routing {
         var count = 0
-        var total = 10
+        var target = 10
 
         val sessions = Collections.synchronizedList<WebSocketServerSession>(ArrayList())
 
         webSocket("/click") {
             sessions.add(this)
             try {
-                sendSerialized(Response(count, total))
+                sendSerialized(Response(count, target))
 
                 while (true) {
                     val cmd = receiveDeserialized<Command>()
@@ -37,13 +36,13 @@ fun Application.configureSockets() {
                         count++
                     }
 
-                    if (count == total) {
-                        total*=2
+                    if (count == target) {
+                        target*=2
                         count = 0
                     }
 
                     for (session in sessions) {
-                        session.sendSerialized(Response(count, total))
+                        session.sendSerialized(Response(count, target))
                     }
 
                 }
@@ -61,4 +60,4 @@ fun Application.configureSockets() {
 data class Command(val command: String)
 
 @Serializable
-data class Response(val count: Int, val total: Int)
+data class Response(val count: Int, val target: Int)
