@@ -1,6 +1,36 @@
-
 html {
-height: 100vh;
-display: grid;
-place-content: center;
+	height: 100vh;
+	display: grid;
+	place-content: center;
+	font-family: sans-serif;
+	text-align: center;
+	overflow: hidden;
+}
+
+h1 {
+	font-size: 3em;
+}
+
+button {
+	font-size: 2em;
+	border: none;
+	padding: 0.2em 0.5em;
+	background: #efefef;
+
+}
+
+button:active {
+	padding: 0.15em 0.45em;
+	margin: 0.05em;
+	background: #ececec;
+}
+
+.progress {
+	position: absolute;
+	height: 100vh;
+	width: 100vw;
+	left: 0;
+	transition: top 0.6s ease;
+	z-index: -1;
+	background: #5fbb97;
 }
