@@ -29,10 +29,14 @@ fun Application.configureSockets() {
         var target = AtomicInt(10)
         val sessions = Collections.synchronizedList<WebSocketServerSession>(ArrayList())
         var style = AtomicInt(0)
+        var activityTimestamp = System.currentTimeMillis()
 
        launch {
           while (true) {
              delay (2000)
+              if (System.currentTimeMillis() - activityTimestamp < 4000) {
+                 continue
+              }
               val countVal = count.load()
               if (countVal > 0) {
                   count.decrementAndFetch()
@@ -49,9 +53,10 @@ fun Application.configureSockets() {
                 while (true) {
                     val cmd = receiveDeserialized<Command>()
                     if (cmd.command == "inc") {
+                        activityTimestamp = System.currentTimeMillis()
                         val countVal = count.incrementAndFetch()
                         var targetVal = target.load()
-                        if (countVal == targetVal) {
+                        if (countVal > targetVal) {
                             targetVal*=2
                             count.store(0)
                             target.store(targetVal)

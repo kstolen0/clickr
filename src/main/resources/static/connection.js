@@ -62,6 +62,14 @@ function setProgress(value, color) {
 	const progress = document.getElementById("progress");
 	progress.style.top = `${100 - value}vh`;
 	progress.style.background = color;
+	if (value === 0) {
+		progress.classList.remove('ease');
+		progress.classList.add('snap');
+		requestAnimationFrame(() => {
+			progress.classList.remove('snap');
+			progress.classList.add('ease');
+		})
+	}
 }
 
 function sendInc() {
