@@ -31,7 +31,7 @@ button:active {
 	height: 100vh;
 	width: 100vw;
 	left: 0;
-	transition: top 0.6s ease;
+	transition: top 1s ease;
 	z-index: -1;
 	background: #5fbb97;
 }
