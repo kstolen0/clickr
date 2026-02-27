@@ -39,6 +39,10 @@ button:active {
 	transition: top 0.2s linear;
 }
 
+.progress.fall {
+	transition: top 1s linear;
+}
+
 .progress.snap {
 	transition: none;
 	top: 100vh;

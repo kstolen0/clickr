@@ -1,5 +1,7 @@
 let url;
 let socket;
+let prevCount = undefined;
+let currentCount = undefined;
 
 const colors = {
 	"#F2EFEA": "#DBD56E",
@@ -47,6 +49,13 @@ function updateCount(event) {
 }
 
 function setCount(value, color) {
+	if (prevCount == undefined) {
+		prevCount = value
+		currentCount = value
+	} else {
+		prevCount = currentCount
+		currentCount = value
+	}
 	const count = document.getElementById("count");
 	count.innerHTML = value;
 	count.style.color = color;
@@ -62,6 +71,14 @@ function setProgress(value, color) {
 	const progress = document.getElementById("progress");
 	progress.style.top = `${100 - value}vh`;
 	progress.style.background = color;
+	if (currentCount < prevCount) {
+		progress.classList.remove('ease');
+		progress.classList.add('fall');
+	} else {
+		progress.classList.add('ease');
+		progress.classList.remove('fall');
+
+	}
 	if (value === 0) {
 		progress.classList.remove('ease');
 		progress.classList.add('snap');
