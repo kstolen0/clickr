@@ -36,7 +36,7 @@ function updateCount(event) {
 	const res = JSON.parse(event.data)
 	const count = Number(res.count);
 	const target = Number(res.target);
-	const progress = Math.ceil(count / target * 100);
+	const progress = (count / target * 100).toFixed(2);
 	const style = Number(res.style);
 	const c1 = Object.keys(colors)[style];
 	const c2 = colors[c1];
