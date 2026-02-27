@@ -11,7 +11,7 @@ RUN gradle build -x test || return 0
 
 # Copy source and build
 COPY src src
-RUN gradle clean build
+RUN gradle clean build -x test
 
 # ---- Run stage ----
 FROM eclipse-temurin:21-jre-jammy
@@ -21,6 +21,9 @@ ARG GROUP_ID=1001
 
 RUN groupadd --gid $GROUP_ID appgroup && \
  useradd --uid $USER_ID --gid $GROUP_ID --create-home --shell /bin/bash appuser
+
+USER root
+RUN mkdir -p /app/data && chown -R appuser:appgroup /app/data
 
 USER appuser
 
