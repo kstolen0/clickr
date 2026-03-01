@@ -2,6 +2,7 @@ let url;
 let socket;
 let prevCount = undefined;
 let currentCount = undefined;
+let target = undefined;
 
 const colors = {
 	"#F2EFEA": "#DBD56E",
@@ -34,10 +35,10 @@ function closeConnection(event) {
 
 function updateCount(event) {
 	const res = JSON.parse(event.data)
-	const count = Number(res.count);
-	const target = Number(res.target);
-	const progress = (count / target * 100).toFixed(2);
+	let count = Number(res.count);
+	target = Number(res.target);
 	const style = Number(res.style);
+	const progress = (count / target * 100).toFixed(2);
 	const c1 = Object.keys(colors)[style];
 	const c2 = colors[c1];
 	const c3 = colors[c2];
@@ -47,6 +48,8 @@ function updateCount(event) {
 	setProgress(progress, c1);
 	document.getElementById("html").style.background = c2;
 }
+
+
 
 function setCount(value, color) {
 	if (prevCount == undefined) {
@@ -71,21 +74,22 @@ function setProgress(value, color) {
 	const progress = document.getElementById("progress");
 	progress.style.top = `${100 - value}vh`;
 	progress.style.background = color;
-	if (currentCount < prevCount) {
-		progress.classList.remove('ease');
-		progress.classList.add('fall');
+	if (currentCount === 0) {
+		progress.remove()
+		const newProgress = document.createElement('div')
+		newProgress.id = 'progress'
+		newProgress.className = 'progress ease'
+		newProgress.style.background = color;
+		document.body.append(newProgress)
+	} else if (currentCount < prevCount) {
+		requestAnimationFrame(() => {
+			progress.classList.remove('ease');
+			progress.classList.add('fall');
+		})
 	} else {
 		progress.classList.add('ease');
 		progress.classList.remove('fall');
 
-	}
-	if (value === 0) {
-		progress.classList.remove('ease');
-		progress.classList.add('snap');
-		requestAnimationFrame(() => {
-			progress.classList.remove('snap');
-			progress.classList.add('ease');
-		})
 	}
 }
 

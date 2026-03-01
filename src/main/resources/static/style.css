@@ -30,6 +30,7 @@ button:active {
 	position: absolute;
 	height: 100vh;
 	width: 100vw;
+	top: 100vh;
 	left: 0;
 	z-index: -1;
 	background: #5fbb97;
