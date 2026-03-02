@@ -36,7 +36,7 @@ fun Application.configureSockets() {
         val row = transaction {
             Counter.select(Counter.id,Counter.current, Counter.target, Counter.style).limit(1).firstOrNull()
         }
-        println(row.toString())
+        println("row is ${row.toString()}")
         row?.let {
             id = it[Counter.id]
             count.store(it[Counter.current])
@@ -53,6 +53,7 @@ fun Application.configureSockets() {
                 if (System.currentTimeMillis() - activityTimestamp < 4000) {
                     continue
                 }
+                println("decrementing count")
                 val countVal = count.load()
                 if (countVal > 0) {
                     count.decrementAndFetch()
@@ -64,6 +65,7 @@ fun Application.configureSockets() {
         launch {
             while (true) {
                 delay(5000)
+                println("upserting count")
                 transaction {
                     Counter.upsert {
                         it[Counter.id] = id
@@ -76,6 +78,7 @@ fun Application.configureSockets() {
         }
 
         webSocket("/click") {
+            println("new connection")
             sessions.add(this)
             try {
                 sendSerialized(Response(count.load(), target.load(), style.load()))
