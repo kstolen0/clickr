@@ -49,7 +49,7 @@ fun Application.configureSockets() {
 
         launch {
             while (true) {
-                delay(1000)
+                delay(500000)
                 if (System.currentTimeMillis() - activityTimestamp < 4000) {
                     continue
                 }
